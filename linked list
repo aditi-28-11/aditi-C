@@ -2,143 +2,206 @@
 #include <stdio.h>
 #include<stdlib.h>
 typedef struct colgate {
-    int data;
-    struct colgate* next;
+	int data;
+	struct colgate* next;
 } *mylist;
 
 mylist f=NULL,r=NULL,t=NULL;
 
+int search (int a) {
+	mylist t=f;
+	int flag=0;
+	while (t->next!=NULL) {
+		if(t->data==a) {
+			flag=1;
+			break;
+		}
+		else {
+			t=t->next;
+		}
+	}
+	return flag;
+}
 
+mylist createlist() { // memory is allocated to each node respectively here
+	mylist node;
+	node=(mylist)malloc(sizeof (struct colgate));
+	node->data=0;
+	node->next= NULL;
+	return node;
+}
+void insertfront (int a) { // element will be inserted in the front
+	mylist temp;
+	temp= createlist();
+	temp->data=a;
+	if(f!=NULL) {
+		temp->next= f;
+		f=temp;
+		r=temp;
+	}
+	else {
+		f=temp;
+		r=temp;
+	}
+}
 
-mylist createlist(){
-    mylist node;
-    node=(mylist)malloc(sizeof (struct colgate));
-    node->data=0;
-    node->next= NULL;
-    return node;
+void insertend(int a) { //element will be inseted in the end of the list
+	mylist temp;
+	temp=createlist();
+	temp->data=a;
+	if (r==NULL) {
+		r=temp;
+		f=temp;
+	}
+	else {
+		r->next=temp;
+		r=temp;
+	}
 }
-void insertfront (int a){ 
-    mylist temp;
-    temp= createlist();
-    temp->data=a;
-    if(f!=NULL){
-        temp->next= f;
-        f=temp;
-        r=temp;
-    }
-    else{
-        f=temp;
-        r=temp;
-    }
+void insertafter (int a,int b) {
+	mylist temp, n;
+	int flag=search(a);
+	if (flag==1) {
+		n=f;
+		while (n!=NULL && n->data!=a) {
+			n=n->next;
+		}
+		temp->next=n->next;
+		temp->data=b;
+		n->next=temp;
+	}
+	else {
+		printf("element a does not exist in list");
+	}
 }
-void insertend(int a){
-    mylist temp;
-    temp=createlist();
-    temp->data=a;
-    if (r==NULL){
-        r=temp;
-        f=temp;
-    }
-    else{
-        r->next=temp;
-        r=temp;
-    }
+void deleteend() { // delete the element in the end
+	int a;
+	mylist n,m;
+	n=f;
+	m=n;
+	a=r->data;
+	printf("deleted data is %d \n",a);
+	while(n!=r) {
+		m=n;
+		n=n->next;
+	}
+	m->next=NULL;
+	r=m;
 }
-void insertafter (int a,int b){
-    mylist temp, n;
-    n=f;
-    while (n!=NULL && n->data!=a){
-        n=n->next;
-    }
-    temp->next=n->next;
-    temp->data=b;
-    n->next=temp;
+void deletefront() { // delete the element in the front
+	printf("the deleted element is %d",f->data);
+	f=f->next;
 }
-void deleteend(){
-    int a;
-    mylist n,m;
-    n=f;
-    m=n;
-    a=r->data;
-    printf("deleted data is %d \n",a);
-    while(n!=r){
-        m=n;
-        n=n->next;
-    }
-    m->next=NULL;
-    r=m;
+void deleteele(int a) { // delete a specific element
+	mylist n,m;
+	int flag=search(a);
+	if (flag==1) {
+		n=f;
+		m=n;
+		if (a==f->data) {
+			deletefront();
+		}
+		else if(a==r->data) {
+			deleteend();
+		}
+		else {
+			while(n->data!=a) {
+				m=n;
+				n=n->next;
+			}
+			m->next=n->next;
+			n->next=NULL;
+		}
+	}
+	else {
+		printf("the element %d does not exist in the list",a);
+	}
 }
-void deletefront(){
-    printf("the deleted element is %d",f->data);
-    f=f->next;
+void display() {
+	if(f==NULL)
+		printf("list empty");
+	else {
+		for(t=f; t->next!=NULL; t=t->next) {
+			printf("%d --",t->data);
+		}
+		printf("%d",t->data);
+	}
 }
-void deleteele(int a){
-    mylist n,m;
-    n=f;
-    m=n;
-    while(n->data!=a){
-        m=n;
-        n=n->next;
-    }
-    m->next=n->next;
-    n->next=NULL;
-    
-}
-void display(){
-    if(f==NULL)
-        printf("list empty");
-    else{
-        for(t=f;t->next!=NULL;t=t->next){
-            printf("%d --",t->data);
-        }
-        printf("%d",t->data);
-    }
-}
-void stackdemo(){
-    int a,b;
-    while (1){
-        printf("enter your requirement based on menu shown below\n\n");
-        printf("1.insert element\n2.delete element\n 3.display\n");
-        scanf("%d",&b);
-        switch (b){
-        case 1:printf("enter the element to be inserted");
-        scanf("%d",&a);
-        insertend(a);break;
-        case 2:deleteend();break;
-        case 3:display();break;
-        }
-    }
+void stackdemo() {
+	int a,b;
+	while (1) {
+		printf("enter your requirement based on menu shown below\n\n");
+		printf("1.insert element\n2.delete element\n 3.display\n");
+		scanf("%d",&b);
+		switch (b) {
+		case 1:
+			printf("enter the element to be inserted");
+			scanf("%d",&a);
+			insertend(a);
+			break;
+		case 2:
+			deleteend();
+			break;
+		case 3:
+			display();
+			break;
+		}
+	}
 }
 void main()
 {
-    int a,b,c;
-    while(1){
-         printf("\n\nMENU\n\n");
-         printf("1. insert in front \n2. insert in end \n3. insert after an element\n4. delete in beginning\n");
-         printf("5. delete in end\n6. delete a specific element\n7. display\n8. linked stack demo\n9. Exit\n\n");
-         scanf("%d",&a);
-         switch (a){
-            case 1:printf("enter the element");
-            scanf("%d",&b);
-            insertfront(b);
-            break;
-            case 2: printf("enter the element ");
-            scanf("%d",&b);
-            insertend(b);
-            break;
-            case 3:printf(" enter the element to be inserted an the after ehich element ");
-            scanf("%d%d",&b,&c);
-            insertafter(c,b);
-            break;
-            case 4:deletefront();break;
-            case 5:deleteend();break;
-            case 6: printf("enter the element to be deleted ");
-            scanf("%d",&b);
-            deleteele(b);
-            break;
-            case 7:display();break;
-            case 8:stackdemo();break;
-            case 9: exit(0);
-    }
-    }
+	int a,b,c,d;
+	while(1) {
+		printf("\n\nMENU\n\n");
+		printf("1. insert in front \n2. insert in end \n3. insert after an element\n4. delete in beginning\n");
+		printf("5. delete in end\n6. delete a specific element\n7. display\n8. linked stack demo\n9. search an element\n10. Exit\n\n");
+		scanf("%d",&a);
+		switch (a) {
+		case 1:
+			printf("enter the element");
+			scanf("%d",&b);
+			insertfront(b);
+			break;
+		case 2:
+			printf("enter the element ");
+			scanf("%d",&b);
+			insertend(b);
+			break;
+		case 3:
+			printf(" enter the element to be inserted an the after ehich element ");
+			scanf("%d%d",&b,&c);
+			insertafter(c,b);
+			break;
+		case 4:
+			deletefront();
+			break;
+		case 5:
+			deleteend();
+			break;
+		case 6:
+			printf("enter the element to be deleted ");
+			scanf("%d",&b);
+			deleteele(b);
+			break;
+		case 7:
+			display();
+			break;
+		case 8:
+			stackdemo();
+			break;
+		case 9:
+			printf("enter the element to be searched");
+			scanf("%d",&b);
+			d=search (b);
+			if (d==1) {
+				printf("element exists in the list");
+			}
+			else {
+				printf("element does not exist in the list");
+			}
+			break;
+		case 10:
+			exit(0);
+		}
+	}
 }
