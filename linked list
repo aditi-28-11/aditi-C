@@ -20,6 +20,9 @@ int search (int a) {
 			t=t->next;
 		}
 	}
+	if (t->data==a) {
+		flag=1;
+	}
 	return flag;
 }
 
@@ -85,12 +88,16 @@ void deleteend() { // delete the element in the end
 		m=n;
 		n=n->next;
 	}
+	free (r);
 	m->next=NULL;
 	r=m;
 }
 void deletefront() { // delete the element in the front
+    mylist x;
 	printf("the deleted element is %d",f->data);
-	f=f->next;
+	x=f->next;
+	free(f);
+	f=x;
 }
 void deleteele(int a) { // delete a specific element
 	mylist n,m;
@@ -109,6 +116,7 @@ void deleteele(int a) { // delete a specific element
 				m=n;
 				n=n->next;
 			}
+			free(n);
 			m->next=n->next;
 			n->next=NULL;
 		}
@@ -129,9 +137,10 @@ void display() {
 }
 void stackdemo() {
 	int a,b;
+	f=r=NULL;
 	while (1) {
-		printf("enter your requirement based on menu shown below\n\n");
-		printf("1.insert element\n2.delete element\n 3.display\n");
+		printf("\n\nenter your requirement based on menu shown below\n\n");
+		printf("1.insert element\n2.delete element\n3.display\n4.exit\n\n");
 		scanf("%d",&b);
 		switch (b) {
 		case 1:
@@ -145,8 +154,35 @@ void stackdemo() {
 		case 3:
 			display();
 			break;
+		case 4: exit (0);
 		}
 	}
+}
+
+void queuedemo () {
+	int a,b;
+	f=r=NULL;
+	while (1) {
+		printf("\n\nenter your requirement based on menu shown below\n\n");
+		printf("1.insert element\n2.delete element\n3.display\n4.exit\n\n");
+		scanf("%d",&b);
+		switch (b) {
+		case 1:
+			printf("enter the element to be inserted");
+			scanf("%d",&a);
+			insertend(a);
+			break;
+		case 2:
+			deletefront();
+			break;
+		case 3:
+			display();
+			break;
+		case 4:
+		    exit(0);
+		}
+	}
+
 }
 void main()
 {
@@ -154,7 +190,7 @@ void main()
 	while(1) {
 		printf("\n\nMENU\n\n");
 		printf("1. insert in front \n2. insert in end \n3. insert after an element\n4. delete in beginning\n");
-		printf("5. delete in end\n6. delete a specific element\n7. display\n8. linked stack demo\n9. search an element\n10. Exit\n\n");
+		printf("5. delete in end\n6. delete a specific element\n7. display\n8. linked stack demo\n9. linked queue demo\n10. search an element\n11. Exit\n\n");
 		scanf("%d",&a);
 		switch (a) {
 		case 1:
@@ -190,6 +226,9 @@ void main()
 			stackdemo();
 			break;
 		case 9:
+			queuedemo();
+			break;
+		case 10:
 			printf("enter the element to be searched");
 			scanf("%d",&b);
 			d=search (b);
@@ -200,7 +239,7 @@ void main()
 				printf("element does not exist in the list");
 			}
 			break;
-		case 10:
+		case 11:
 			exit(0);
 		}
 	}
