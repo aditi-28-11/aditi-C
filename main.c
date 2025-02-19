@@ -11,13 +11,16 @@ int search (int);
 void queuedemo ();
 void stackdemo();
 void display();
+void isort();
 int main()
 {
 	int a,b,c,d;
+	struct colgate *temp;
 	while(1) {
 		printf("\n\nMENU\n\n");
 		printf("1. insert in front \n2. insert in end \n3. insert after an element\n4. delete in beginning\n");
-		printf("5. delete in end\n6. delete a specific element\n7. display\n8. linked stack demo\n9. linked queue demo\n10. search an element\n11. Exit\n\n");
+		printf("5. delete in end\n6. delete a specific element\n7. display\n8. linked stack demo\n9. linked queue demo\n10.
+			search an element\n11.insertion sort\n12. Exit\n\n");
 		scanf("%d",&a);
 		switch (a) {
 		case 1:
@@ -67,6 +70,14 @@ int main()
 			}
 			break;
 		case 11:
+			isort();
+			printf("sorted list looks like \n   |");
+			for (temp=f;temp!=r;temp=temp->next){
+				printf("--- %d ",temp->data);
+			}
+			printf("%d ---   |",temp->data);
+			break;
+		case 12:
 			exit(0);
 		}
 return 0;	}
