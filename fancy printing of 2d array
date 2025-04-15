@@ -1,0 +1,51 @@
+#include<stdio.h>
+#include<stdlib.h>
+int a[10][10],n;
+
+int display ()
+{
+	int v;
+	if(n%2==0)
+		v=n/2;
+	else
+		v=n/2+1;
+	int m,i,j,k,l;
+	for (m =0; m<v; m++)
+	{
+		for (i=m; i<(n-m); i++) {
+			printf("%d\t",a[m][i]);
+		}
+		for (j=m+1; j<(n-m); j++)
+		{
+			printf("%d\t",a[j][n-1-m]);
+		}
+		for (k=n-2-m; k>=(0+m); k--)
+		{
+			printf("%d\t",a[n-1-m][k]);
+		}
+		for (l=n-2-m; l>(0+m); l--) {
+			printf("%d\t",a[l][m]);
+		}
+	}
+}
+int main()
+{
+	int i,j,value;
+	printf("enter the number of rows and columns you need");
+	scanf("%d",&n);
+	for (i=0; i<n; i++)
+	{
+		for (j=0; j<n; j++) {
+			value=(rand()%10);
+			a[i][j]=value;
+		}
+	}
+
+	for (i=0; i<n; i++) {
+		for(j=0; j<n; j++) {
+			printf("%2d\t",a[i][j]);
+		}
+		printf("\n");
+	}
+	display();
+}
